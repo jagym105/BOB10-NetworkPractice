@@ -1,16 +1,23 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <arpa/inet.h>
+int file_read(char num[])
+{
+    FILE *fp;
+    uint32_t snum;
+    fp = fopen(num, "rb");
+    fread(&snum, sizeof(uint32_t),1, fp);
+    fclose(fp);
+    return ntohl(snum);
+}
+
 int main(int argc, char *argv[]){
-    FILE *fp,*fp2;
-    uint32_t thousand,five_hundred;
-    // read binary file
+    if(argc !=3)
+    {
+        printf("error!");
+        return 0;
+    }
+    uint32_t sum = file_read(argv[1])+file_read(argv[2]);
+    printf("%02x = %d",sum,sum);
 
-    fp = fopen(argv[1], "rb");
-    fread(&thousand, sizeof(uint32_t),1, fp);
-    fp2 = fopen(argv[2], "rb");
-    fread(&five_hundred, sizeof(uint32_t),1, fp2);
-
-    // print
-    printf("%02x\n",ntohl(thousand) + ntohl(five_hundred));
-    fclose(fp); }
+     }
