@@ -102,11 +102,14 @@ int main(int argc, char* argv[]) {
         {
             ip_header = (struct libnet_ipv4_hdr *)(packet + sizeof(libnet_ethernet_hdr));
             print_ip(ip_header);
+            if (ip_header->ip_p == IPPROTO_TCP)
+            {
             tcp_header = (struct libnet_tcp_hdr *)(packet + sizeof(libnet_ethernet_hdr) + sizeof(libnet_ipv4_hdr));
             print_tcp(tcp_header);
 
             payload_data = (struct payload *)(packet + sizeof(libnet_ethernet_hdr) + sizeof(libnet_ipv4_hdr)+ sizeof(libnet_tcp_hdr));
             print_payload(payload_data);
+            }
         }
         printf("\n");
     }
